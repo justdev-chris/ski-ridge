@@ -111,10 +111,10 @@ class Program
                 }
             }
             
-            // Draw skier
-            PushMatrix();
-            Translate(player.Position.X, player.Position.Y, player.Position.Z);
-            RotateY(player.Tilt);
+            // Draw skier - use RlPushMatrix etc
+            Rlgl.PushMatrix();
+            Rlgl.Translatef(player.Position.X, player.Position.Y, player.Position.Z);
+            Rlgl.Rotatef(player.Tilt * 50, 0, 1, 0);
             
             // Body
             DrawCube(new Vector3(0, 0.8f, 0), 0.5f, 0.8f, 0.3f, player.Color);
@@ -124,7 +124,7 @@ class Program
             DrawCube(new Vector3(-0.2f, 0.2f, 0.2f), 0.2f, 0.1f, 0.8f, Color.DarkGray);
             DrawCube(new Vector3(0.2f, 0.2f, 0.2f), 0.2f, 0.1f, 0.8f, Color.DarkGray);
             
-            PopMatrix();
+            Rlgl.PopMatrix();
             
             EndMode3D();
             
