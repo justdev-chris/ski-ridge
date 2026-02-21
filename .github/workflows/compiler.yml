@@ -1,0 +1,35 @@
+name: Build ski ridge game
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Download Raylib
+        shell: powershell
+        run: |
+          Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/Raylib-cs/6.0.0" -OutFile raylib.zip
+          Expand-Archive -Path raylib.zip -DestinationPath raylib
+      
+      - name: Build GUI
+        shell: cmd
+        run: |
+          "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\Roslyn\csc.exe" ^
+          /target:winexe ^
+          /out:ski-ridge.exe ^
+          /reference:raylib\lib\net8.0\Raylib-cs.dll ^
+          Program.cs
+      
+      - name: Copy Raylib native DLL
+        shell: powershell
+        run: |
+          Copy-Item "raylib\lib\net8.0\runtimes\win-x64\native\raylib.dll" -Destination "."
+      
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ski-ridge
+          path: |
+            ski-ridge.exe
+            raylib.dll
