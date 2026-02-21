@@ -2,6 +2,7 @@ using Raylib_cs;
 using static Raylib_cs.Raylib;
 using System.Numerics;
 using System.Collections.Generic;
+using System; // Add this line!
 
 namespace SkiRidge;
 
@@ -31,7 +32,7 @@ class Program
         Player player = new() { Position = new Vector3(0, 0, 0) };
         
         List<Tree> trees = new();
-        Random rand = new();
+        Random rand = new(); // This needs System namespace
         
         // Generate trees
         for (int i = 0; i < 20; i++)
